@@ -1,0 +1,44 @@
+{
+    "buses": {
+        "BUS1": {
+            "voltage_kV": 13.8,
+            "zone": "A"
+        },
+        "BUS2": {
+            "voltage_kV": 13.8,
+            "zone": "A"
+        },
+        "BUS3": {
+            "voltage_kV": 4.16,
+            "zone": "B"
+        }
+    },
+    "lines": {
+        "LINE1": {
+            "from_bus": "BUS1",
+            "to_bus": "BUS2",
+            "r_ohm": 0.2,
+            "x_ohm": 0.45,
+            "length": 0.5,
+            "linecode": "OH-1"
+        },
+        "LINE2": {
+            "from_bus": "BUS2",
+            "to_bus": "BUS3",
+            "r_ohm": 0.1,
+            "x_ohm": 0.25,
+            "length": 0.3,
+            "linecode": "UG-1"
+        }
+    },
+    "transformers": {
+        "TX1": {
+            "primary_bus": "BUS1",
+            "secondary_bus": "BUS3",
+            "primary_kV": 13.8,
+            "secondary_kV": 4.16,
+            "impedance_percent": 6.0,
+            "tap": 1.0
+        }
+    }
+}

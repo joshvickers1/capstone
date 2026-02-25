@@ -1,0 +1,7 @@
+type,bus_id,kv,zone,line_id,from_bus,to_bus,r_ohm,x_ohm,length,linecode,tx_id,primary_bus,secondary_bus,primary_kv,secondary_kv,z_percent,tap
+bus,BUS1,13.8,A,,,,,,,,,,,,
+bus,BUS2,13.8,A,,,,,,,,,,,,
+bus,BUS3,4.16,B,,,,,,,,,,,,
+line,,,,,LINE1,BUS1,BUS2,0.20,0.45,0.5,OH-1,,,,,,,
+line,,,,,LINE2,BUS2,BUS3,0.10,0.25,0.3,UG-1,,,,,,,
+transformer,,,,,,,,,,,TX1,BUS1,BUS3,13.8,4.16,6.0,1.0
