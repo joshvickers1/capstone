@@ -1,6 +1,6 @@
 ! Inverter modeled as Thevenin equivalent (voltage behind resistance)
 
-New Vsource.Inverter_Thevenin phases=3 bus1=inv_bus.1.2.3
+New Vsource.Inverter_Thevenin phases=3 bus1=680.1.2.3
 ~ basekv=0.48
 ~ pu=1.0
 ~ angle=0
