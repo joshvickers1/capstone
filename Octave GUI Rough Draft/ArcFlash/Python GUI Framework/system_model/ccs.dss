@@ -1,6 +1,6 @@
 ! Inverter modeled as a constant current source (CCS)
 
-New Isource.Inverter_CCS phases=3 bus1=inv_bus.1.2.3
+New Isource.Inverter_CCS phases=3 bus1=680.1.2.3
 ~ amps=120
 ~ angle=0
 ~ frequency=60
