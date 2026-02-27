@@ -5,11 +5,11 @@
 ! Place a current-limited inverter at the same bus (or nearby)
 ! Model=7: current-limited constant P,Q model
 ! Vminpu influences the current limit behavior
-New Generator.IBDER1 bus1=680.1.2.3 phases=3 kv=4.16 kW=500 kvar=0 model=7 Vminpu=0.8333
+New Generator.IBDER1 bus1=645.1.2.3 phases=3 kv=4.16 kW=500 kvar=0 model=7 Vminpu=0.8333
 
 ! ---- Define explicit near-bolted 3-phase fault at the bus
 ! Fault is a resistor branch; use small R for near-bolted
-New Fault.AF1 bus1=680.1.2.3 phases=3 r=0.0001 x=0
+New Fault.AF1 bus1=645.1.2.3 phases=3 r=0.0001 x=0
 
 ! ---- Solve in SNAP mode (explicit Fault element works in normal solve)
 Set mode=snap
