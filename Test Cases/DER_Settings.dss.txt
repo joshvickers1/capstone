@@ -1,0 +1,44 @@
+! ---------- Common curves ----------
+New XYcurve.PV_EFF npts=4 xarray=[0.1 0.2 0.5 1.0] yarray=[0.965 0.975 0.985 0.990]
+New XYcurve.INV_VV npts=4 xarray=[0.95 0.98 1.02 1.05] yarray=[0.44 0.0 0.0 -0.44]  ! puV vs puQ (capacitive +)
+New XYcurve.INV_VW npts=3 xarray=[1.00 1.06 1.10] yarray=[1.00 1.00 0.20]            ! puV vs puP
+
+! ---------- PV at primary buses (4.16 kV LL) ----------
+! PV1: medium PV near the big delta load at bus 671 (3-phase)
+New PVSystem.PV_671 phases=3 bus1=671.1.2.3 conn=wye kv=4.16 kVA=750  Pmpp=650  %Pmpp=100
+~ irrad=1.0  pf=1.0  effcurve=PV_EFF  %cutin=1  %cutout=1
+~ VarFollowInverter=Yes  wattpriority=Yes
+
+! PV2: smaller PV at bus 692 (often a lateral/end) (phase-to-phase delta service in feeder; we connect 3ph wye to bus 692)
+New PVSystem.PV_692 phases=3 bus1=692.1.2.3 conn=wye kv=4.16 kVA=400  Pmpp=350  %Pmpp=100
+~ irrad=1.0 pf=1.0 effcurve=PV_EFF  %cutin=1  %cutout=1
+~ VarFollowInverter=Yes wattpriority=Yes
+
+! ---------- PV at secondary (0.48 kV LL) ----------
+! A 3-phase rooftop PV on the secondary side of Transformer.XFM1 (bus 634)
+New PVSystem.PV_634 phases=3 bus1=634.1.2.3 conn=wye kv=0.48 kVA=250 Pmpp=220 %Pmpp=100
+~ irrad=1.0 pf=1.0 effcurve=PV_EFF %cutin=1 %cutout=1
+~ VarFollowInverter=Yes wattpriority=Yes
+
+! ---------- Storage (battery) at primary ----------
+! Storage at bus 675 (a load concentration) for peak shaving / ride-through
+New Storage.BESS_675 phases=3 bus1=675.1.2.3 conn=wye kv=4.16
+~ kWrated=500  kWhrated=1000  %stored=50  %reserve=20
+~ %EffCharge=95 %EffDischarge=95  kVA=550  pf=1.0
+~ State=IDLING  DispMode=DEFAULT  DischargeTrigger=0  ChargeTrigger=0
+
+! Optional: simple daily dispatch shapes (commented by default)
+! New Loadshape.PVshape npts=24 interval=1 mult=[0 0 0 0 0 0.05 0.15 0.35 0.60 0.80 0.95 1.00 1.00 0.90 0.75 0.55 0.35 0.15 0.05 0 0 0 0 0]
+! Edit PVSystem.PV_671 daily=PVshape
+! Edit PVSystem.PV_692 daily=PVshape
+! Edit PVSystem.PV_634 daily=PVshape
+! New Loadshape.BESSshape npts=24 interval=1 mult=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0.7 0.9 1.0 0.6 0.2]
+! Edit Storage.BESS_675 daily=BESSshape
+! Edit Storage.BESS_675 DispMode=FOLLOW daily=BESSshape
+
+! ---------- Inverter control (Volt/Var + Volt/Watt) ----------
+! This enables feeder-voltage support behavior for the PVs.
+New InvControl.DER_VV_VW Mode=VOLTVAR
+~ DERList=[PVSystem.PV_671 PVSystem.PV_692 PVSystem.PV_634]
+~ vvc_curve1=INV_VV  RefReactivePower=VARMAX  varchangetolerance=0.05  deltaQ_factor=0.7
+~ VoltageChangeTolerance=0.002  EventLog=Yes
