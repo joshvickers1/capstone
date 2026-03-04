@@ -1,4 +1,4 @@
-! ---- 3-phase bolted faults (primary 4.16kV unless noted) ----
+! 3-phase bolted faults
 New Fault.F3_RG60  phases=3 bus1=RG60.1.2.3   r=0.0001 enabled=No
 New Fault.F3_632   phases=3 bus1=632.1.2.3    r=0.0001 enabled=No
 New Fault.F3_633   phases=3 bus1=633.1.2.3    r=0.0001 enabled=No
@@ -8,17 +8,17 @@ New Fault.F3_680   phases=3 bus1=680.1.2.3    r=0.0001 enabled=No
 New Fault.F3_692   phases=3 bus1=692.1.2.3    r=0.0001 enabled=No
 New Fault.F3_670   phases=3 bus1=670.1.2.3    r=0.0001 enabled=No
 
-! ---- Secondary (0.48 kV) 3-phase fault at bus 634 ----
+! Secondary (0.48 kV) 3-phase fault at bus 634
 New Fault.F3_634   phases=3 bus1=634.1.2.3    r=0.0001 enabled=No
 
-! ---- Single-line-to-ground (SLG) faults on representative laterals ----
+!Single-line-to-ground (SLG) faults
 New Fault.F1_645B  phases=1 bus1=645.2        r=0.0001 enabled=No   ! phase B at bus 645
 New Fault.F1_611C  phases=1 bus1=611.3        r=0.0001 enabled=No   ! phase C at bus 611
 New Fault.F1_652A  phases=1 bus1=652.1        r=0.0001 enabled=No   ! phase A at bus 652
 
-! ---- Line-to-line (L-L) faults (use bus.phase1.phase2) ----
+! Line-to-line (L-L) faults
 New Fault.FLL_646BC phases=1 bus1=646.2.3     r=0.0001 enabled=No   ! B-C at bus 646
-New Fault.FLL_692CA phases=1 bus1=692.3.1     r=0.0001 enabled=No   ! C-A at bus 692 (matches load connection)
+New Fault.FLL_692CA phases=1 bus1=692.3.1     r=0.0001 enabled=No   ! C-A at bus 692
 
 ! --- Base solve settings ---
 set maxiterations=50
@@ -29,13 +29,7 @@ set stepsize=1h
 ! Make sure all fault elements start disabled
 Disable Fault.*
 
-! Optionally, run one global fault study (no explicit Fault objects required)
-! set mode=faultstudy
-! solve
-! export faultstudy
-! set mode=snapshot
-
-! ========== 3-phase faults ==========
+! RUN 3-PHASE FAULTS
 Disable Fault.*  ! safety
 Enable Fault.F3_RG60
 set casename=F3_RG60
@@ -110,7 +104,7 @@ export voltages
 export powers
 Disable Fault.F3_634
 
-! ========== SLG faults ==========
+! RUN SLG FAULTS
 Enable Fault.F1_645B
 set casename=F1_645B
 solve
@@ -135,7 +129,7 @@ export voltages
 export powers
 Disable Fault.F1_652A
 
-! ========== L-L faults ==========
+! RUN L-L FAULTS
 Enable Fault.FLL_646BC
 set casename=FLL_646BC
 solve

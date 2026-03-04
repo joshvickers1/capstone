@@ -1,0 +1,12 @@
+! Declare new 3ph fault scenario at bus 671
+New Fault.F1 phases=3 bus1=671.1.2.3 R=0.0001
+
+! Set solve modes
+Set ControlMode=Off
+Set Mode=Snap
+Solve
+
+! Export tables
+Export Currents
+Export Voltages
+Export Powers

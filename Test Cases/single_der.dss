@@ -1,0 +1,6 @@
+! A simple 3-phase PVSystem modeled as constant-PQ inverter source.
+! Declare a single PV DER at bus 671 (4.16 kV), 3-phase
+New PVSystem.DER1 phases=3 bus1=671.1.2.3 kV=4.16 kVA=500 pf=1.0
+~ irradiance=1.0 Pmpp=450 temperature=25 %cutin=0.1 %cutout=0.1
+
+Enable PVSystem.DER1

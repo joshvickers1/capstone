@@ -1,12 +1,12 @@
 # Import necessary modules
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 import opendssdirect as dss 
-import os, shutil
+import os
 from pathlib import Path
 
-# --- Input handling and OpenDSS integration ---
+# ----- Input handling and OpenDSS integration -----
 
 # --- SYSTEM MODEL INPUT HANDLING ---
 # Function to import system model and provide ingestion summary 
@@ -128,7 +128,7 @@ def summarize_der_dss_text(dss_text: str) -> dict:
 def der_summary_to_string(path: str, summary: dict) -> str:
     lines = []
     lines.append("DER File Summary:\n")
-    lines.append(f"File path: {path}")
+    lines.append(f"File path: {path}\n")
     lines.append(f"New elements: {summary['num_new_elements']}")
 
     lines.append("By type:")
@@ -254,7 +254,7 @@ def summarize_fault_dss_text(dss_text: str) -> dict:
 def fault_summary_to_string(path: str, summary: dict) -> str:
     lines = []
     lines.append("Fault Scenario Summary:\n")
-    lines.append(f"File path: {path}")
+    lines.append(f"File path: {path}\n")
     lines.append(f"Number of faults: {summary['num_faults']}")
     lines.append("")
     for f in summary["faults"]:
@@ -282,6 +282,7 @@ def combine_build_der_fault_run(system_build: str, der_text: str, fault_text: st
 def write_final_dss_to_master_folder(system_master_path: str, final_dss_text: str,
                                     filename: str = "_GUI_Final_RunCase.dss") -> str:
     master = Path(system_master_path).expanduser().resolve()
+    app.final_path = master.parent
     out_path = master.parent / filename
     out_path.write_text(final_dss_text, encoding="utf-8")
     return str(out_path)
@@ -298,7 +299,6 @@ def run_simulation():
 
     # Write final DSS into same folder as master for redirects
     final_path = write_final_dss_to_master_folder(app.system_master_path, app.final_dss_text)
-    app.final_path = final_path
     # Make sure OpenDSS resolves relative Redirects from that folder
     final_file = Path(final_path).resolve()
     model_dir = final_file.parent
@@ -682,7 +682,7 @@ class RunSimulationPage(tk.Frame):
 
     def run_sim(self):
         run_simulation()
-        self.status.config(text=f"{get_fault_element_currents()}", fg="black")
+        self.status.config(text=f"Current, Voltage, and Power Tables exported to {app.final_path}", fg="black")
 
 
 class ResultsPage(tk.Frame):
